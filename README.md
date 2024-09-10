@@ -36,7 +36,7 @@ These components are launched using Docker Compose.
 
 ## Future Enhancements
 
--[ ] Extend to support multiple models
--[ ] Add more detailed metrics on model accuracy and performance
--[ ] Implement alerting functionality
--[ ] Add operational features such as auto-scaling
+- [ ] Extend to support multiple models
+- [ ] Add more detailed metrics on model accuracy and performance
+- [ ] Implement alerting functionality
+- [ ] Add operational features such as auto-scaling
