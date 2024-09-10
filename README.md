@@ -30,7 +30,7 @@ These components are launched using Docker Compose.
 
 ## Notes
 
-- Proxy server logs are stored in the `/app/logs` directory.
+- Proxy server logs are stored in the `/proxy/logs` directory.
 - Grafana dashboard and data source configurations are defined in files within the `grafana/` directory.
 - Promtail configuration is defined in the `promtail-config.yaml` file.
 
