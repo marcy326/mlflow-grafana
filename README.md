@@ -1,42 +1,42 @@
 # Proxy Server with Monitoring
 
-このプロジェクトは、MLflow モデルサーバーへのリクエストをプロキシするサーバーと、Grafana を使ったモニタリングシステムを提供します。
+This project provides a proxy server for MLflow model server requests and a monitoring system using Grafana.
 
-## 機能
+## Features
 
-- プロキシサーバーは、クライアントからのリクエストを受け取り、MLflow モデルサーバーに転送します。
-- リクエストとレスポンスのデータは、Loki に保存されます。
-- Grafana ダッシュボードを使って、モデルの予測率などのメトリクスを監視できます。
+- Proxy server receives requests from clients and forwards them to the MLflow model server.
+- Request and response data are stored in Loki.
+- Grafana dashboard allows monitoring of metrics such as model prediction rates.
 
-## 構成
+## Components
 
-このプロジェクトは、以下のコンポーネントで構成されています:
+This project consists of the following components:
 
-- `proxy`: Flask ベースのプロキシサーバー
-- `inference`: MLflow モデルサーバー
-- `loki`: ログ収集システム
-- `promtail`: Loki にログを送信するエージェント
-- `grafana`: モニタリングダッシュボード
+- `proxy`: Flask-based proxy server
+- `inference`: MLflow model server
+- `loki`: Log collection system
+- `promtail`: Agent for sending logs to Loki
+- `grafana`: Monitoring dashboard
 
-これらのコンポーネントは、Docker Compose を使って起動されます。
+These components are launched using Docker Compose.
 
-## 使い方
+## Usage
 
-1. このリポジトリをクローンします。
-2. `docker-compose up -d` を実行して、すべてのコンポーネントを起動します。
-3. Grafana にアクセス (http://localhost:3000) し、ログインします (ユーザー名: `admin`, パスワード: `admin`)。
-4. ダッシュボードを確認して、モデルの予測率などのメトリクスを監視できます。
-5. プロキシサーバーにリクエストを送信するには、`request_example.sh` スクリプトを使用できます。
+1. Clone this repository.
+2. Run `docker compose up -d` to start all components.
+3. Access Grafana (http://localhost:3000) and log in (username: `admin`, password: `admin`).
+4. Check the dashboard to monitor metrics such as model prediction rates.
+5. To send requests to the proxy server, you can use the `request_example.sh` script.
 
-## 注意事項
+## Notes
 
-- プロキシサーバーのログは、`/app/logs` ディレクトリに保存されます。
-- Grafana のダッシュボードとデータソースの設定は、`grafana/` ディレクトリ内のファイルで定義されています。
-- Promtail の設定は、`promtail-config.yaml` ファイルで定義されています。
+- Proxy server logs are stored in the `/app/logs` directory.
+- Grafana dashboard and data source configurations are defined in files within the `grafana/` directory.
+- Promtail configuration is defined in the `promtail-config.yaml` file.
 
-## 今後の拡張
+## Future Enhancements
 
-- 複数のモデルをサポートするように拡張する
-- モデルの精度や性能に関するより詳細なメトリクスを追加する
-- アラート機能を追加する
-- 自動スケーリングなどの運用機能を追加する
+-[ ] Extend to support multiple models
+-[ ] Add more detailed metrics on model accuracy and performance
+-[ ] Implement alerting functionality
+-[ ] Add operational features such as auto-scaling
