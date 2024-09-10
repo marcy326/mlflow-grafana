@@ -1,0 +1,43 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: json_logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: json_logs
+          __path__: /app/logs/*.json
+    pipeline_stages:
+      - json:
+          expressions:
+            timestamp: timestamp
+            input_data: input_data
+            prediction: prediction
+      - json:
+          expressions:
+            num_Age: num__Age
+            num_Fare: num_Fare
+            num_Siblings_Spouses_Aboard: '"num__Siblings/Spouses Aboard"'
+            num_Parents_Children_Aboard: '"num__Parents/Children Aboard"'
+            cat_Pclass_1: cat__Pclass_1
+            cat_Pclass_2: cat__Pclass_2
+            cat_Pclass_3: cat__Pclass_3
+            cat_Sex_female: cat__Sex_female
+            cat_Sex_male: cat__Sex_male
+          source: input_data
+      - output:
+          source: prediction
+      - labels:
+          data:
+          timestamp: timestamp
+          input_data: input_data
+          prediction: prediction

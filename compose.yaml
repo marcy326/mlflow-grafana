@@ -1,0 +1,57 @@
+services:
+  proxy:
+    build: ./proxy
+    container_name: proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy/logs:/app/logs  # ログファイルをホストと共有
+    networks:
+      - monitoring_network
+
+  inference:
+    image: marcy326/mlflow-model:latest
+    container_name: inference
+    ports:
+      - "8080:8080"
+    networks:
+      - monitoring_network
+
+  loki:
+    image: grafana/loki:main
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - monitoring_network
+
+  promtail:
+    image: grafana/promtail:main
+    container_name: promtail
+    volumes:
+      - ./promtail-config.yaml:/etc/promtail/promtail-config.yaml
+      - ./proxy/logs:/app/logs
+    command: -config.file=/etc/promtail/promtail-config.yaml
+    ports:
+      - 9080:9080
+    networks:
+      - monitoring_network
+
+  grafana:
+    image: grafana/grafana:main
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/dashboards/:/var/lib/grafana/dashboards
+      - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+    networks:
+      - monitoring_network
+
+networks:
+  monitoring_network:
+    driver: bridge

@@ -1,0 +1,80 @@
+apiVersion: 1
+
+providers:
+  - name: 'custom-dashboard'
+    orgId: 1
+    folder: 'Dashboard'
+    type: file
+    options:
+      path: /var/lib/grafana/dashboards
+
+dashboards:
+  - name: "Proxy Server Logs Dashboard"
+    dashboard:
+      id: null
+      uid: "proxy-server-logs"
+      title: "Proxy Server Logs"
+      tags: ["logging", "proxy"]
+      timezone: ""
+      schemaVersion: 30
+      version: 1
+      panels:
+        - type: "table"
+          title: "Logged Requests"
+          datasource: "Loki"
+          targets:
+            - expr: "proxy_server_logs"  # ここでログデータのクエリを指定します
+          fieldConfig:
+            defaults:
+              unit: "none"
+            overrides: []
+          options:
+            showHeader: true
+            styles:
+              - type: "date"
+                pattern: "timestamp"
+                alias: "Time"
+              - type: "string"
+                pattern: "input_data"
+                alias: "Input Data"
+              - type: "string"
+                pattern: "predictions"
+                alias: "Predictions"
+          maxDataPoints: 100
+          timeFrom: null
+          timeShift: null
+          cacheTimeout: null
+          transparent: false
+
+      time:
+        from: "now-6h"
+        to: "now"
+
+      templating:
+        list:
+          - name: "log_level"
+            type: "query"
+            datasource: "Loki"
+            query: "label_values(proxy_server_logs, level)"  # ログレベルをフィルタリングするためのクエリ
+            regex: ""
+            sort: 0
+            label: "Log Level"
+            multi: false
+            includeAll: false
+            refresh: 1
+          - name: "log_status"
+            type: "query"
+            datasource: "Loki"
+            query: "label_values(proxy_server_logs, status)"  # ステータスをフィルタリングするためのクエリ
+            regex: ""
+            sort: 0
+            label: "Status"
+            multi: false
+            includeAll: false
+            refresh: 1
+
+      annotations:
+        list: []
+
+      refresh: "5s"
+
