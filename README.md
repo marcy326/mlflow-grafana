@@ -1,4 +1,4 @@
-# Proxy Server with Monitoring
+# Connecting MLflow Inference Server to Grafana for Model Monitoring
 
 This project provides a proxy server for MLflow model server requests and a monitoring system using Grafana.
 
