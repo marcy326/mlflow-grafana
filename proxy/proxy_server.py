@@ -31,7 +31,7 @@ def log_request_response(inp, out, log_dir):
         }
         d_today = date.today()
         str_today = d_today.strftime('%Y%m%d')
-        log_file = os.path.join(log_dir, f"log_{str_today}.json")
+        log_file = os.path.join(log_dir, f"log_{str_today}.log")
         with open(log_file, "a") as f:
             json.dump(log_entry, f)
             print('', file=f)
