@@ -15,7 +15,7 @@ scrape_configs:
           - localhost
         labels:
           job: json_logs
-          __path__: /app/logs/*.json
+          __path__: /app/logs/*.log
     pipeline_stages:
       - json:
           expressions:
