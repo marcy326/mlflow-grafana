@@ -50,14 +50,13 @@ def process():
     return json.dumps(out)
 
 @click.command()
-@click.option("--port", help="Port", type=int, required=True)
 @click.option("--mlflow-model-server-uri", help="MLflow model server URI", type=str, required=True)
 @click.option("--log-dir", help="Log directory", default="/var/log/proxy-server", type=str)
 def main(port, mlflow_model_server_uri, log_dir):
     global _log_dir, _mlflow_model_server_uri
     _mlflow_model_server_uri = mlflow_model_server_uri
     _log_dir = log_dir
-    app.run(debug=True, host="0.0.0.0", port=port)
+    app.run(debug=True, host="0.0.0.0", port=80)
 
 if __name__ == '__main__':
     main()
